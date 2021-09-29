@@ -5,9 +5,9 @@
         <img src="../assets/img/avatar.png" alt="" />
       </div>
       <div class="login_form">
-        <el-form :modle="loginForm" :rules="loginFormRules" ref="loginFormRef">
+        <el-form :model="loginForm" :rules="loginFormRules" ref="loginFormRef">
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" prefix-icon="iconfont icon-yonghu" @blur="aaa"></el-input>
+            <el-input v-model="loginForm.username" prefix-icon="iconfont icon-yonghu"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input v-model="loginForm.password" prefix-icon="iconfont icon-tianchongxing-" type="password"></el-input>
@@ -29,18 +29,18 @@ export default {
     return {
       // 表单中的数据绑定对象
       loginForm: {
-        username: '123',
-        password: 'aaaa'
+        username: 'admin',
+        password: '123456'
       },
       // 表单中的验证规则对象
       loginFormRules: {
         username: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, max: 10, message: '长度在3到10个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 3, max: 10, message: '密码长度为3到12个字符串', trigger: 'blur' }
+          { min: 3, max: 12, message: '密码长度为3到12个字符串', trigger: 'blur' }
         ]
       }
     }
@@ -48,24 +48,21 @@ export default {
   methods: {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
-        console.log(valid);
         if (!valid) return;
-        const { data } = await this.$axios.post('/login', this.loginForm);
-        console.log(data);
-        if (data.meta.status !== 200) return this.$message.error('登录失败，请重新登录');
+        const { data: res } = await this.$axios.post('/login', this.loginForm);
+        console.log(res);
+        if (res.meta.status !== 200) return this.$message.error('登录失败，请重新登录');
         this.$message.success('恭喜你,登陆成功~');
-
+        window.sessionStorage.setItem("token", res.data.token);
+        this.$router.push('/home');
       })
     },
     resetLoginForm() {
       this.$refs.loginFormRef.resetFields();
     },
-    aaa(e) {
-      console.log(this.loginForm.username);
-      this.loginForm.username = e.target.value;
-      this.$router.push('/home')
-    }
-  }
+
+  },
+
 };
 </script>
 

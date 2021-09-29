@@ -18,6 +18,14 @@ Vue.prototype.$message = message;
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+// 导航守卫控制登录权限
+router.beforeEach((to, form, next) => {
+  if (to.path === '/login') return next();
+  const tokenStr = window.sessionStorage.getItem('token');
+  if (!tokenStr) return next('/login');
+  next();
+})
+
 
 new Vue({
   router,
