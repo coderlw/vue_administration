@@ -196,7 +196,7 @@ export default {
       if (resConfirm !== 'confirm') return this.$message.error('已取消删除');
       const { data: res } = await this.$axios.delete('categories/' + id);
       console.log(res);
-      // if (res.meta.status !== 200) return this.$message.error('删除失败');
+      if (res.meta.status !== 200) return this.$message.error('删除失败');
       this.getGoodsList();
       this.$message.success('删除成功');
     }
