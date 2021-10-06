@@ -165,7 +165,7 @@ export default {
       this.imgDialogVisible = true;
     },
     addGood() {
-      this.$refs.goodRef.validate(async valid => {
+      this.$ref.goodref.validate(async valid => {
         if (!valid) return this.$message.error('请填写商品的必填项');
         // 深拷贝对象
         const form = _.cloneDeep(this.goodForm)
