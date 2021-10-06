@@ -158,6 +158,10 @@ export default {
       this.getParamsData();
     },
     async getParamsData() {
+      if (this.selectKeys.length !== 3) {
+        this.paramsList = [];
+        return;
+      }
       const { data: res } = await this.$axios.get(`categories/${this.cateId}/attributes`, { params: { sel: this.activeName } });
       if (res.meta.status !== 200) return this.$message.error('获取参数失败');
       res.data.forEach((item) => {
@@ -194,7 +198,7 @@ export default {
       this.$refs.editRef.validate(async valid => {
         if (!valid) return;
         const { data: res } = await this.$axios.put(`categories/${this.cateId}/attributes/${this.attrId}`, {
-          attr_name: this.editForm.attr_name, attr_sel: this.activeName, attr_vals: '海信60E3F,60英寸4K,智慧全面屏电视机,智能网络,高清平板液晶悬浮全面屏三面无边,4KHDR超高清,8G存储'
+          attr_name: this.editForm.attr_name, attr_sel: this.activeName, attr_vals: 'TCL电视'
         });
         if (res.meta.status !== 200) return this.$message.error('修改属性失败');
         this.getParamsData();
